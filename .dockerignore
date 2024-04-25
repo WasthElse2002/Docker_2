@@ -1,0 +1,20 @@
+# Node modules - évite d'inclure les modules locaux, mieux vaut les installer dans le Dockerfile
+node_modules/
+
+# Logs
+*.log
+
+# Environments and sensitive files
+.env
+.env.*
+
+# Build artifacts
+dist/
+build/
+
+# Git files
+.git/
+.gitignore
+
+# Docker files
+.dockerignore

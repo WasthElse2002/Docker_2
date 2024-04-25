@@ -91,6 +91,12 @@ app.get("/", async (req: Request, res: Response) => {
   res.json(data);
 });
 
+app.get("/ping", (req, res) => {
+  const hostname = os.hostname();
+  console.log(`Received /ping request on ${hostname}`);
+  res.json({ status: "pong", hostname });
+});
+
 app.listen(port, () => {
   console.log(`Dummy app listening on port ${port}`);
 });

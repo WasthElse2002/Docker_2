@@ -1,0 +1,57 @@
+version: "3.8"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: dev-stage
+    environment:
+      PORT: 1337
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      MYSQL_HOST: mysql
+      MYSQL_PORT: 3306
+      MYSQL_DB: test
+      MYSQL_USER: root
+      MYSQL_PASSWORD: example
+      FILE_PATH_TO_CHECK: ./dummy.txt
+    hostname: mydocker
+    volumes:
+      - ./:/app
+    deploy:
+      replicas: 4
+    networks:
+      - backend
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - "8080:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    networks:
+      - backend
+
+  mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+      MYSQL_DATABASE: test
+      MYSQL_USER: user
+      MYSQL_PASSWORD: userpassword
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - backend
+
+  redis:
+    image: redis:latest
+    networks:
+      - backend
+
+networks:
+  backend:
+
+volumes:
+  mysql-data:
